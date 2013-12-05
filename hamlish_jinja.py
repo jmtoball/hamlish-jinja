@@ -31,14 +31,15 @@ class HamlishExtension(Extension):
             hamlish_indent_string='    ',
             hamlish_newline_string='\n',
             hamlish_debug=False,
+            hamlish_volatile=False,
             hamlish_enable_div_shortcut=False,
             hamlish_from_string=self._from_string
         )
 
 
     def preprocess(self, source, name, filename=None):
-        if name is None or os.path.splitext(name)[1] not in \
-            self.environment.hamlish_file_extensions:
+        if not self.environment.hamlish_volatile and (name is None or os.path.splitext(name)[1] not in \
+            self.environment.hamlish_file_extensions):
             return source
 
         h = self.get_preprocessor(self.environment.hamlish_mode)
